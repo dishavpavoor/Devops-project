@@ -1,10 +1,12 @@
 # EC2, Terraform, Ansible and Jenkins
 
+For the complete GitHub-to-Jenkins-to-EC2 sequence, start with [the integration guide](GITHUB_AWS_JENKINS.md).
+
 These configurations are supplied for deployment. They have not been applied to an AWS account by the project authoring session. AWS resources incur costs. Keep the EC2 instance running only as long as needed for your assessment.
 
 ## 1. Provision a host
 
-Prerequisites: Terraform >=1.6, AWS credentials configured through the normal AWS credential chain, an existing EC2 key pair, a VPC and public subnet with internet access, and your public IPv4 address.
+Prerequisites: Terraform >=1.7, AWS credentials configured through the normal AWS credential chain, an existing EC2 key pair, a VPC and public subnet with internet access, and your public IPv4 address.
 
 ```sh
 cd deploy/terraform

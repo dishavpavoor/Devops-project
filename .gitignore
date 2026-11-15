@@ -24,3 +24,4 @@ source.tar.gz
 *.pfx
 *.tfplan
 crash.log
+deploy/ansible/jenkins.ini

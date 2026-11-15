@@ -1,6 +1,6 @@
 pipeline {
   agent { label 'docker' }
-  options { timestamps(); disableConcurrentBuilds() }
+  options { timestamps(); disableConcurrentBuilds(); skipDefaultCheckout(true); timeout(time: 30, unit: 'MINUTES') }
   parameters {
     booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy to the prepared EC2 instance')
     string(name: 'DEPLOY_HOST', defaultValue: '', description: 'EC2 IP or DNS name')
@@ -20,7 +20,7 @@ pipeline {
     stage('Validate monitoring rules') {
       steps {
         withCredentials([string(credentialsId: 'sentinel-grafana-password', variable: 'GRAFANA_ADMIN_PASSWORD')]) {
-          sh 'docker compose config --quiet && docker compose run --rm --no-deps --entrypoint promtool prometheus check config /etc/prometheus/prometheus.yml && docker compose run --rm --no-deps --entrypoint promtool prometheus test rules /etc/prometheus/test_rules.yml'
+          sh 'docker compose config --quiet && docker compose run --rm --no-deps --entrypoint promtool prometheus check config /etc/prometheus/prometheus.yml && docker compose run --rm --no-deps --entrypoint promtool prometheus test rules /etc/prometheus/test_rules.yml && docker compose run --rm --no-deps --entrypoint promtool prometheus check rules /etc/prometheus/alerts.host.yml'
         }
       }
     }

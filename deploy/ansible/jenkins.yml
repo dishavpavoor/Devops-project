@@ -1,0 +1,97 @@
+---
+# Optional installer for the Jenkins host. For a classroom demo this may be
+# the same Ubuntu EC2 instance as Sentinel; use DEPLOY_HOST=localhost in Jenkins.
+- name: Install Jenkins and its build tools on Ubuntu 24.04
+  hosts: jenkins
+  become: true
+  tasks:
+    - name: Check supported host operating system
+      ansible.builtin.assert:
+        that:
+          - ansible_distribution == 'Ubuntu'
+          - ansible_distribution_version == '24.04'
+        fail_msg: This playbook targets Ubuntu 24.04 with Python 3.12 packages.
+
+    - name: Install Java and pipeline tools
+      ansible.builtin.apt:
+        name:
+          - openjdk-21-jre-headless
+          - fontconfig
+          - ca-certificates
+          - git
+          - openssh-client
+          - docker.io
+          - docker-compose-v2
+          - python3.12
+          - python3.12-venv
+          - python3-pip
+        update_cache: true
+        state: present
+
+    - name: Enable Docker
+      ansible.builtin.service:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Create APT keyring directory
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Install official Jenkins LTS signing key
+      ansible.builtin.get_url:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+        dest: /etc/apt/keyrings/jenkins-keyring.asc
+        mode: '0644'
+
+    - name: Configure Jenkins stable package repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/jenkins.list
+        mode: '0644'
+        content: "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/\n"
+
+    - name: Install Jenkins without starting it before configuration
+      ansible.builtin.apt:
+        name: jenkins
+        state: present
+        update_cache: true
+        policy_rc_d: 101
+
+    - name: Allow Jenkins to build Docker images
+      ansible.builtin.user:
+        name: jenkins
+        groups: docker
+        append: true
+      notify: Restart Jenkins
+
+    - name: Create systemd override directory
+      ansible.builtin.file:
+        path: /etc/systemd/system/jenkins.service.d
+        state: directory
+        mode: '0755'
+
+    - name: Bind Jenkins web interface to localhost
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/jenkins.service.d/override.conf
+        mode: '0644'
+        content: |
+          [Service]
+          Environment="JENKINS_OPTS=--webroot=/var/cache/jenkins/war --httpListenAddress=127.0.0.1"
+          Environment="JAVA_OPTS=-Djava.awt.headless=true -Xmx1024m"
+      notify: Restart Jenkins
+
+    - name: Start Jenkins
+      ansible.builtin.systemd_service:
+        name: jenkins
+        enabled: true
+        state: started
+        daemon_reload: true
+
+  handlers:
+    - name: Restart Jenkins
+      ansible.builtin.systemd_service:
+        name: jenkins
+        state: restarted
+        daemon_reload: true
