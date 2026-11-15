@@ -42,6 +42,12 @@ A baseline with constant empty-disk features may not teach Isolation Forest to r
 
 Final verification: 12 Python tests passed; demo and host rule syntax passed; Prometheus unit-rule tests passed; both Compose modes resolved successfully; Ansible syntax and Terraform formatting checks passed. Both local experiments cleaned up their demo fill file.
 
+## GitHub and infrastructure configuration checks
+
+The private repository is [dishavpavoor/Devops-project](https://github.com/dishavpavoor/Devops-project). Its [first verification workflow](https://github.com/dishavpavoor/Devops-project/actions/runs/43746899608) passed on GitHub, including model training/evaluation, Python tests, Prometheus rule validation, container startup, smoke checks and the disk warning experiment.
+
+Terraform provider initialization and configuration validation passed. Three mock-provider tests passed for encrypted disk/IMDSv2/SSH restrictions, rejecting public SSH, and rejecting mismatched VPC/subnet settings. These tests did not create AWS resources. The new Jenkins Ubuntu installation playbook passed Ansible syntax checking; it has not yet been applied to an EC2 host.
+
 ## Not established by local verification
 
-Linux Node Exporter host-mode operation on an EC2 host; actual Terraform provisioning; remote Ansible application; Jenkins/GitHub Actions execution on their services; external email/Slack delivery; production reliability or arbitrary failure prediction. Configuration and instructions are included for those deployment tasks, but unrun jobs are not presented as successful deployments.
+Linux Node Exporter host-mode operation on an EC2 host; actual Terraform provisioning; remote Ansible application; Jenkins execution on its service; external email/Slack delivery; production reliability or arbitrary failure prediction. Configuration and instructions are included for those deployment tasks, but unrun jobs are not presented as successful deployments.

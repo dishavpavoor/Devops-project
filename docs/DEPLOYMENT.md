@@ -90,7 +90,7 @@ A normal pipeline run validates the demo rules; the Linux deployment loads `aler
 docker compose run --rm --no-deps --entrypoint promtool prometheus check rules /etc/prometheus/alerts.host.yml
 ```
 
-The GitHub Actions workflow additionally brings up a disposable local stack and runs the measured disk demo. This workflow has been written but has not been run on GitHub from this workspace.
+The GitHub Actions workflow additionally brings up a disposable local stack and runs the measured disk demo. The first GitHub execution passed, including the measured disk demo: [verification run](https://github.com/dishavpavoor/Devops-project/actions/runs/43746899608). This is additional verification and does not replace running Jenkins.
 
 If a deployment smoke test fails, inspect logs before proceeding. Roll back by loading the previous saved image and setting `IMAGE_TAG` to that build number; no automatic rollback is claimed.
 
