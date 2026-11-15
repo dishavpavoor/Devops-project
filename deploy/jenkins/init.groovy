@@ -21,6 +21,8 @@ import hudson.util.Secret
 
 // Initialize a fresh, dedicated localhost controller only. Do not reset it on restart.
 def j = Jenkins.get()
+jenkins.model.JenkinsLocationConfiguration.get().setUrl('http://localhost:8080/')
+jenkins.model.JenkinsLocationConfiguration.get().save()
 def marker = new File(j.rootDir, '.devops-initialized')
 if (marker.exists()) { return }
 def secretDir = new File('/run/project-secrets')

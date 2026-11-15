@@ -3,6 +3,7 @@ import argparse
 import base64
 import http.cookiejar
 import json
+import re
 import time
 from pathlib import Path
 from urllib.parse import urlencode
@@ -53,7 +54,7 @@ def main(host, build_number=None):
     while True:
         info = get(path + '/api/json')
         with request(path + f'/logText/progressiveText?start={offset}') as response:
-            chunk = response.read().decode(errors='replace')
+            chunk = re.sub(r'\x1b\[8m.*?\x1b\[0m', '', response.read().decode(errors='replace'))
             offset = int(response.headers.get('X-Text-Size', offset))
         # Jenkins credentials masking remains enabled; print stage changes and useful results.
         for line in chunk.splitlines():

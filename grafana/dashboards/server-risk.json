@@ -395,22 +395,16 @@
   ],
   "links": [
     {
-      "title": "Prometheus alerts",
+      "title": "Alert rules",
       "type": "link",
-      "url": "http://localhost:9090/alerts",
-      "targetBlank": true
+      "url": "/alerting/list",
+      "targetBlank": false
     },
     {
-      "title": "Alertmanager",
+      "title": "Explore metrics",
       "type": "link",
-      "url": "http://localhost:9093",
-      "targetBlank": true
-    },
-    {
-      "title": "Service API",
-      "type": "link",
-      "url": "http://localhost:8001/docs",
-      "targetBlank": true
+      "url": "/explore",
+      "targetBlank": false
     }
   ],
   "annotations": {
