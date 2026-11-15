@@ -23,7 +23,7 @@ Open `http://localhost:8080`, username `admin`; the generated password is in `.l
 
 This trusted local demo controller runs as container root and has access to the Docker Desktop socket so it can build images. Docker access can control the local Docker environment. Keep the interface bound to localhost, allow only trusted project code to run, and use dedicated build agents for a shared installation.
 
-Matching host/container Jenkins-home paths allow Compose's workspace bind mounts to work with the Docker Desktop daemon. The image includes Python 3.12, Docker CLI/Compose and the required Pipeline/Git/credentials/JUnit plugins.
+Matching host/container Jenkins-home paths allow Compose's workspace bind mounts to work with the Docker Desktop daemon. The image includes Python 3.12, Docker CLI/Compose and the required Pipeline/Git/credentials/JUnit/Timestamper plugins.
 
 ## Prepare and deploy the existing instance
 

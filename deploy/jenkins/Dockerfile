@@ -10,7 +10,7 @@ COPY --from=python /usr/local /usr/local
 COPY --from=dockercli /usr/local/bin/docker /usr/local/bin/docker
 COPY --from=dockercli /usr/local/libexec/docker/cli-plugins /usr/local/libexec/docker/cli-plugins
 RUN ldconfig && python3.12 --version && docker --version && docker compose version
-RUN jenkins-plugin-cli --plugins workflow-aggregator git credentials-binding junit plain-credentials ssh-credentials
+RUN jenkins-plugin-cli --plugins workflow-aggregator git credentials-binding junit plain-credentials ssh-credentials timestamper
 COPY deploy/jenkins/init.groovy /usr/share/jenkins/ref/init.groovy.d/10-project.groovy
 # The local Compose controller explicitly runs as root to access Docker Desktop.
 # Keep it localhost-only; it is intended for this trusted classroom project.
