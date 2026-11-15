@@ -9,8 +9,8 @@ Your required toolchain is **Git + Jenkins + AWS + Docker**. Terraform and Ansib
 - Git main branch and private GitHub repository: connected.
 - Docker monitoring stack: built and tested locally.
 - Terraform: configuration validates, and three mocked infrastructure tests pass without creating resources.
-- Jenkins: Pipeline and Ubuntu installation playbook supplied; an actual Jenkins job has not been executed yet.
-- AWS: awaiting locally configured credentials and the team's region/network/key-pair settings. No instance has been provisioned.
+- Jenkins: Local Docker controller is running; build 3 successfully tested and deployed to EC2. The separate Ubuntu Jenkins installation playbook remains an optional alternative.
+- AWS: Monitoring runs on the existing Ubuntu 26.04 t3.micro instance. It was launched manually; Terraform provisioning was not used.
 
 For the existing t3.micro deployment with Jenkins running locally, see [Local Jenkins → EC2](LOCAL_JENKINS.md). The remaining sections describe alternative provisioning and Jenkins-host arrangements.
 
@@ -38,7 +38,7 @@ Non-secret settings needed:
 
 | Setting | Example/meaning |
 |---|---|
-| `region` | `ap-south-1` (Mumbai) |
+| `region` | `us-east-1` (N. Virginia) |
 | `aws_profile` | Name of your local profile, if using one |
 | `vpc_id` | Existing VPC ID |
 | `subnet_id` | Public subnet in that VPC, with an internet-gateway route |

@@ -1,0 +1,11 @@
+{
+  "checked_at_utc": "2026-11-15T20:18:23.399265+00:00",
+  "checks": {
+    "EC2 Grafana": "PASS",
+    "EC2 Prometheus": "PASS",
+    "EC2 Alertmanager": "PASS",
+    "EC2 ML readiness": "PASS",
+    "Local Jenkins": "PASS",
+    "Jenkins requires authentication": "PASS"
+  }
+}

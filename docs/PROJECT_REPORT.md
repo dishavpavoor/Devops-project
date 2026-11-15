@@ -82,7 +82,7 @@ Jenkins trains, evaluates, tests, validates Prometheus rules and builds an image
 
 - Synthetic ML fixtures do not establish real-world failure prediction performance. Isolation Forest can miss changes in features that were constant throughout training; the locally calibrated model did not raise an ML alert during the repeated disk-fill test. The independent capacity forecast did raise an early warning.
 - One host and one filesystem are supported initially; adding hosts requires explicit target/label selection, independent windows and per-host calibration.
-- Linux mode and AWS deployment need verification on an actual Linux/EC2 host; local macOS demo validation does not establish those results.
+- Linux host monitoring has been verified on the existing Ubuntu 26.04 t3.micro EC2 instance through a successful Jenkins deployment and live dashboard-query checks. Broader operational reliability and real-host ML quality still require evaluation.
 - No high availability, automated model retraining, drift detection, TLS reverse proxy or tested external notification receiver is included.
 - Future evaluation should include variable fill rates, cleanup, plateau periods, gaps, benign workload shifts and repeated test runs with confidence intervals.
 - Model warnings require human inspection; automated remediation is outside this project's scope.

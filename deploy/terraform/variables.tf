@@ -1,7 +1,7 @@
 variable "region" {
   description = "AWS region containing the supplied VPC, subnet and EC2 key pair."
   type        = string
-  default     = "ap-south-1"
+  default     = "us-east-1"
 }
 
 variable "aws_profile" {

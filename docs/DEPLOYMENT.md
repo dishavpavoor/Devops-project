@@ -2,7 +2,7 @@
 
 For the complete GitHub-to-Jenkins-to-EC2 sequence, start with [the integration guide](GITHUB_AWS_JENKINS.md).
 
-These configurations are supplied for deployment. They have not been applied to an AWS account by the project authoring session. AWS resources incur costs. Keep the EC2 instance running only as long as needed for your assessment.
+The existing EC2 instance has been configured using the host Ansible playbook and deployed through local Jenkins; see [the current setup](LOCAL_JENKINS.md). The Terraform and separate Jenkins-on-Ubuntu instructions below describe optional alternative setups. Terraform has not been applied. AWS resources incur costs. Keep the EC2 instance running only as long as needed for your assessment.
 
 ## 1. Provision a host
 

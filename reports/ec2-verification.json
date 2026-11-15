@@ -1,0 +1,21 @@
+{
+  "verified_at_utc": "2026-11-15T20:07:25.746092+00:00",
+  "system": "x86_64",
+  "source": "node",
+  "model_synthetic": true,
+  "dashboard_title": "Sentinel | Server Early Warning",
+  "dashboard_queries_checked": 12,
+  "metrics": {
+    "server_cpu_usage_percent": 5.736363636364006,
+    "server_memory_usage_percent": 66.99540002579425,
+    "server_disk_usage_percent": 78.81871870127381
+  },
+  "actual_root_disk_pct": 78.81883411487578,
+  "deployment": {
+    "commit": "c9c8ec0a3b7b12f22ad9d934041dd6fa134ea5ef",
+    "build": "3",
+    "platform": "linux/amd64",
+    "job_url": null
+  },
+  "note": "Live EC2 resource collection verified. The image contains a synthetic demo ML model; representative host calibration and real held-out ML validation remain separate tasks."
+}

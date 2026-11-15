@@ -1,5 +1,5 @@
 # Account credentials stay in your local AWS profile, never in this file.
-region = "ap-south-1"
+region = "us-east-1"
 # aws_profile = "your-local-profile"
 
 vpc_id     = "vpc-0123456789abcdef0"

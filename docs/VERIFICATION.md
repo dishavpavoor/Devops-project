@@ -1,6 +1,6 @@
 # Verification record
 
-Date: 15 November 2026. Environment: macOS with Docker Desktop's Linux environment. Actual evidence is distinguished from supplied deployment configuration.
+Initial local checks: 15 November 2026. Cloud deployment and final checks: 16 November 2026 (Asia/Kolkata). Actual evidence is distinguished from supplied deployment configuration.
 
 ## Observed checks
 
@@ -9,7 +9,7 @@ Date: 15 November 2026. Environment: macOS with Docker Desktop's Linux environme
 - Rule tests passed for rising disk warning before a fixed threshold, no forecast on a stable disk, and stalled collection detection.
 - Docker image built successfully and the local stack started.
 - Smoke test passed: saved model ready, Grafana healthy, exporter scraped, rule evaluations healthy.
-- Terraform formatting check passed. Ansible playbook syntax was checked locally; neither was applied to a remote host.
+- Terraform validation and three mock-provider tests passed; Terraform was not applied. The host Ansible playbook was subsequently applied successfully to EC2 (11 successful tasks, no failures).
 
 ## First live disk-fill experiment
 
@@ -48,6 +48,17 @@ The private repository is [dishavpavoor/Devops-project](https://github.com/disha
 
 Terraform provider initialization and configuration validation passed. Three mock-provider tests passed for encrypted disk/IMDSv2/SSH restrictions, rejecting public SSH, and rejecting mismatched VPC/subnet settings. These tests did not create AWS resources. The new Jenkins Ubuntu installation playbook passed Ansible syntax checking; it has not yet been applied to an EC2 host.
 
-## Not established by local verification
+## Successful EC2 deployment through Jenkins
 
-Linux Node Exporter host-mode operation on an EC2 host; actual Terraform provisioning; remote Ansible application; Jenkins execution on its service; external email/Slack delivery; production reliability or arbitrary failure prediction. Configuration and instructions are included for those deployment tasks, but unrun jobs are not presented as successful deployments.
+- The user-launched Ubuntu 26.04 t3.micro instance now runs Node Exporter, the Python collector/model service, Prometheus, Grafana and Alertmanager.
+- Jenkins runs locally in Docker so the small EC2 instance does not also host the controller/build tools.
+- Jenkins build **3** finished **SUCCESS** in about 111 seconds and deployed Git revision `c9c8ec0a3b7b12f22ad9d934041dd6fa134ea5ef` for `linux/amd64`.
+- The pipeline ran model training/evaluation, all **12 Python tests**, Prometheus config/rule checks, image build, SSH transfer, container deployment and the smoke test.
+- The final read-only EC2 verification checked all **12 dashboard expressions**, confirmed fresh Node Exporter data and matched the monitored disk percentage to the actual root filesystem within one percentage point.
+- HTTP service ports are bound to the host loopback interface and reached from the Mac through SSH tunnels. Jenkins is also published only on localhost.
+- The small-instance profile limits service memory and Prometheus retention to 24 hours / 256 MB. A bounded 512 MiB swap file was configured; the instance was not resized.
+- See `reports/jenkins-build.json` and `reports/ec2-verification.json` for the recorded result and sampled metrics. Passwords, private-key contents and local controller state are not included.
+
+## Remaining evaluation and unrun components
+
+Terraform provisioning; applying the optional Jenkins-on-Ubuntu installer; external email/Slack delivery; representative EC2 baseline calibration and real held-out ML evaluation; production reliability or arbitrary failure prediction. The deployed image currently contains the clearly labeled synthetic ML model. Cloud verification did not fill the root filesystem or claim a measured cloud disk-exhaustion lead time.

@@ -2,6 +2,8 @@
 
 GitHub repository: [dishavpavoor/Devops-project](https://github.com/dishavpavoor/Devops-project). Sentinel is the application's internal name.
 
+For a shareable description, presentation script, graph explanations and usage steps, read the [partner guide](docs/PARTNER_GUIDE.md).
+
 For an existing small EC2 instance, use the [local Jenkins deployment guide](docs/LOCAL_JENKINS.md). For other setups, follow the [integration guide](docs/GITHUB_AWS_JENKINS.md). The required tools are **Git + Jenkins + AWS + Docker**.
 
 A complete single-host monitoring project with live CPU/RAM/disk charts, disk capacity forecasting, independent ML anomaly detection, a repeatable bounded experiment, model evaluation, CI/CD and EC2 deployment configuration.
@@ -122,7 +124,7 @@ docker compose run --rm --no-deps --entrypoint promtool prometheus check rules /
 - `.github/workflows/ci.yml`: tests plus disposable stack and measured disk demo.
 - [Verification record](docs/VERIFICATION.md): checks actually performed and unrun deployment components.
 
-No AWS resources were provisioned, no remote Jenkins job was executed, and no external notification receiver was configured by this workspace build.
+The existing EC2 instance now runs the Linux monitoring stack. Local Jenkins build **3** successfully deployed Git revision `c9c8ec0` and passed smoke checks; all 12 dashboard queries were verified against live EC2 metrics. See [verification](docs/VERIFICATION.md). Terraform was not applied, no additional instance was created, and external email/Slack delivery remains unconfigured.
 
 ## Two-person submission
 
