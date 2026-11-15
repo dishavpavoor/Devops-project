@@ -1,0 +1,40 @@
+{
+  "feature_version": 1,
+  "interval": 2,
+  "window": 10,
+  "feature_names": [
+    "cpu_pct_mean",
+    "cpu_pct_std",
+    "cpu_pct_slope_per_second",
+    "ram_pct_mean",
+    "ram_pct_std",
+    "ram_pct_slope_per_second",
+    "disk_used_pct_mean",
+    "disk_used_pct_std",
+    "disk_used_pct_slope_per_second"
+  ],
+  "training_windows": 924,
+  "sklearn": "1.7.1",
+  "trained_at": "2026-11-15T16:47:44.569313+00:00",
+  "source_sha256": "af5f93b96ed2d208c0acc023dedce454f02584fc4b27750c3ba72f63f06fdb02",
+  "training_runs": [
+    [
+      "synthetic-demo",
+      "train-0"
+    ],
+    [
+      "synthetic-demo",
+      "train-1"
+    ],
+    [
+      "synthetic-demo",
+      "train-2"
+    ],
+    [
+      "synthetic-demo",
+      "train-3"
+    ]
+  ],
+  "source": "data/train.csv",
+  "synthetic": true
+}

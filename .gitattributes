@@ -1,0 +1,2 @@
+# CSV writers use CRLF intentionally; preserve bytes for dataset provenance hashes.
+*.csv -text whitespace=cr-at-eol

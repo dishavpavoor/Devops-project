@@ -1,0 +1,19 @@
+# Linux only. This override monitors the root filesystem; it never fills it.
+services:
+  monitor:
+    environment:
+      METRICS_SOURCE: node
+      HOST_ID: ${HOST_ID:-linux-host}
+  prometheus:
+    volumes:
+      - ./prometheus/prometheus.host.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerts.host.yml:/etc/prometheus/alerts.yml:ro
+  node-exporter:
+    image: prom/node-exporter:v1.9.1
+    restart: unless-stopped
+    pid: host
+    command:
+      - --path.rootfs=/host
+      - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+)($|/)
+    volumes:
+      - /:/host:ro,rslave

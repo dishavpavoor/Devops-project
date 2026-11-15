@@ -1,0 +1,27 @@
+---
+- name: Prepare Ubuntu host for Sentinel
+  hosts: sentinel
+  become: true
+  tasks:
+    - name: Install Docker, Compose and Python
+      ansible.builtin.apt:
+        name: [docker.io, docker-compose-v2, python3, ca-certificates]
+        update_cache: true
+        state: present
+    - name: Enable Docker daemon
+      ansible.builtin.service:
+        name: docker
+        enabled: true
+        state: started
+    - name: Allow deploy user to use Docker
+      ansible.builtin.user:
+        name: '{{ ansible_user }}'
+        groups: docker
+        append: true
+    - name: Create deployment directory
+      ansible.builtin.file:
+        path: /opt/sentinel
+        state: directory
+        owner: '{{ ansible_user }}'
+        group: '{{ ansible_user }}'
+        mode: '0750'

@@ -1,0 +1,24 @@
+name: Verify Sentinel
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m ml.train && python -m ml.evaluate && python -m pytest -q
+      - run: cp .env.example .env && docker compose config --quiet
+      - run: docker compose run --rm --no-deps --entrypoint promtool prometheus check config /etc/prometheus/prometheus.yml
+      - run: docker compose run --rm --no-deps --entrypoint promtool prometheus test rules /etc/prometheus/test_rules.yml
+      - run: docker compose up --build -d && python -m scripts.smoke
+      - run: python -m scripts.demo_report
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation
+          path: reports/
+      - if: always()
+        run: docker compose logs --no-color && docker compose down

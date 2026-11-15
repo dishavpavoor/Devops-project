@@ -1,0 +1,55 @@
+rule_files:
+  - alerts.yml
+evaluation_interval: 2s
+tests:
+  - name: growing disk warns before fixed threshold
+    interval: 2s
+    input_series:
+      - series: 'server_disk_usage_percent{host="test",instance="monitor:8000",job="server"}'
+        values: '0+4x30'
+      - series: 'server_last_sample_timestamp_seconds{host="test",instance="monitor:8000",job="server"}'
+        values: '0+2x30'
+      - series: 'up{instance="monitor:8000",job="server"}'
+        values: '1+0x30'
+    alert_rule_test:
+      - eval_time: 32s
+        alertname: DiskPredictedToFill
+        exp_alerts:
+          - exp_labels: {host: test, instance: 'monitor:8000', job: server, severity: warning}
+            exp_annotations:
+              summary: test disk projected to reach 95% within 25 seconds
+              description: 'Demo timing; inspect disk growth and free space before acting.'
+      - eval_time: 32s
+        alertname: DiskUsageHigh
+        exp_alerts: []
+      - eval_time: 48s
+        alertname: DiskUsageHigh
+        exp_alerts:
+          - exp_labels: {host: test, instance: 'monitor:8000', job: server, severity: warning}
+            exp_annotations: {summary: test selected filesystem above 90%}
+  - name: stable disk never forecasts exhaustion
+    interval: 2s
+    input_series:
+      - series: 'server_disk_usage_percent{host="test",instance="monitor:8000",job="server"}'
+        values: '30+0x60'
+      - series: 'server_last_sample_timestamp_seconds{host="test",instance="monitor:8000",job="server"}'
+        values: '0+2x60'
+      - series: 'up{instance="monitor:8000",job="server"}'
+        values: '1+0x60'
+    alert_rule_test:
+      - eval_time: 120s
+        alertname: DiskPredictedToFill
+        exp_alerts: []
+  - name: exporter reachable but collection stopped
+    interval: 2s
+    input_series:
+      - series: 'server_last_sample_timestamp_seconds{host="test",instance="monitor:8000",job="server"}'
+        values: '0+0x30'
+      - series: 'up{instance="monitor:8000",job="server"}'
+        values: '1+0x30'
+    alert_rule_test:
+      - eval_time: 22s
+        alertname: MetricCollectionStale
+        exp_alerts:
+          - exp_labels: {host: test, instance: 'monitor:8000', job: server, severity: critical}
+            exp_annotations: {summary: Exporter is alive but metric collection has stalled}

@@ -1,0 +1,16 @@
+{
+  "dataset": "data/test.csv",
+  "synthetic": true,
+  "evaluated_windows": 924,
+  "precision": 0.8609625668449198,
+  "recall": 0.9470588235294117,
+  "f1": 0.9019607843137255,
+  "confusion_matrix": {
+    "tn": 728,
+    "fp": 26,
+    "fn": 9,
+    "tp": 161
+  },
+  "normal_false_positive_rate": 0.030303030303030304,
+  "note": "Window labels use the final sample. Overlapping windows are correlated. These are offline scores, not alert precision or proof of real failure prediction."
+}

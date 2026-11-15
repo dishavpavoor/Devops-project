@@ -1,0 +1,2 @@
+# Install the pinned root requirements.txt; Docker builds from the repo root.
+-r ../requirements.txt

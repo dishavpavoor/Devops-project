@@ -1,0 +1,12 @@
+# Account credentials stay in your local AWS profile, never in this file.
+region = "ap-south-1"
+# aws_profile = "your-local-profile"
+
+vpc_id     = "vpc-0123456789abcdef0"
+subnet_id  = "subnet-0123456789abcdef0"
+key_name   = "your-existing-ec2-key"
+admin_cidr = "203.0.113.10/32" # Replace with your public IPv4 /32.
+
+instance_type  = "t3.small"
+root_volume_gb = 20
+project_name   = "sentinel"

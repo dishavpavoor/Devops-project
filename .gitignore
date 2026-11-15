@@ -1,0 +1,26 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+artifacts/*.joblib
+reports/live-*
+reports/*.csv
+*.tfstate*
+.terraform/
+*.tfvars
+!*.tfvars.example
+outputs/
+.venv312/
+requirements.lock.txt
+deploy/ansible/inventory.ini
+image.tar.gz
+source.tar.gz
+# Local cloud credentials, private keys and Terraform plan files
+.aws/
+*.pem
+*.key
+*.p12
+*.pfx
+*.tfplan
+crash.log

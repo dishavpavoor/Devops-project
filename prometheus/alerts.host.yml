@@ -1,0 +1,37 @@
+groups:
+  - name: server-risk
+    rules:
+      - record: server_data_fresh
+        expr: (time() - server_last_sample_timestamp_seconds < 10) and on(instance,job) (up{job="server"} == 1)
+      - record: server_disk_predicted_usage_percent
+        expr: clamp(predict_linear(server_disk_usage_percent[5m], 600), 0, 100) and on(instance,job) server_data_fresh
+      - alert: DiskPredictedToFill
+        expr: (server_disk_predicted_usage_percent >= 95) and (deriv(server_disk_usage_percent[5m]) > 0) and (server_disk_usage_percent < 95)
+        for: 30s
+        labels: {severity: warning}
+        annotations:
+          summary: '{{ $labels.host }} disk projected to reach 95% within 10 minutes'
+          description: Inspect the root filesystem growth and free space; forecast assumes the recent trend continues.
+      - alert: DiskUsageHigh
+        expr: (server_disk_usage_percent >= 90) and on(instance,job) server_data_fresh
+        for: 10s
+        labels: {severity: warning}
+        annotations:
+          summary: '{{ $labels.host }} selected filesystem above 90%'
+      - alert: ResourceAnomaly
+        expr: (server_anomaly_score > 0) and (server_model_ready == 1) and on(instance,job) server_data_fresh
+        for: 10s
+        labels: {severity: info}
+        annotations:
+          summary: '{{ $labels.host }} differs from its training baseline'
+          description: Anomaly score is not a probability of server failure.
+      - alert: MonitorUnavailable
+        expr: (up{job="server"} == 0) or absent(up{job="server"})
+        for: 10s
+        labels: {severity: critical}
+        annotations: {summary: Metrics exporter is unavailable}
+      - alert: MetricCollectionStale
+        expr: (time() - server_last_sample_timestamp_seconds >= 10) and on(instance,job) (up{job="server"} == 1)
+        for: 10s
+        labels: {severity: critical}
+        annotations: {summary: Exporter is alive but metric collection has stalled}

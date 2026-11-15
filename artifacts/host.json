@@ -1,0 +1,28 @@
+{
+  "feature_version": 1,
+  "interval": 2,
+  "window": 10,
+  "feature_names": [
+    "cpu_pct_mean",
+    "cpu_pct_std",
+    "cpu_pct_slope_per_second",
+    "ram_pct_mean",
+    "ram_pct_std",
+    "ram_pct_slope_per_second",
+    "disk_used_pct_mean",
+    "disk_used_pct_std",
+    "disk_used_pct_slope_per_second"
+  ],
+  "training_windows": 279,
+  "sklearn": "1.7.1",
+  "trained_at": "2026-11-15T17:40:37.474371+00:00",
+  "source_sha256": "5212024abd1ed1998b05f931df55ef91602c147adae8fccd7665c5f9b7bb7763",
+  "training_runs": [
+    [
+      "demo-linux",
+      "live-1794763822"
+    ]
+  ],
+  "source": "data/local-normal.csv",
+  "synthetic": false
+}
