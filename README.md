@@ -1,8 +1,8 @@
 # Devops Project — Server Early Warning
 
-Private GitHub repository: [dishavpavoor/Devops-project](https://github.com/dishavpavoor/Devops-project). Sentinel is the application's internal name.
+GitHub repository: [dishavpavoor/Devops-project](https://github.com/dishavpavoor/Devops-project). Sentinel is the application's internal name.
 
-For the required **Git + Jenkins + AWS + Docker** deployment, follow the [integration guide](docs/GITHUB_AWS_JENKINS.md).
+For an existing small EC2 instance, use the [local Jenkins deployment guide](docs/LOCAL_JENKINS.md). For other setups, follow the [integration guide](docs/GITHUB_AWS_JENKINS.md). The required tools are **Git + Jenkins + AWS + Docker**.
 
 A complete single-host monitoring project with live CPU/RAM/disk charts, disk capacity forecasting, independent ML anomaly detection, a repeatable bounded experiment, model evaluation, CI/CD and EC2 deployment configuration.
 

@@ -1,0 +1,22 @@
+# Layer after compose.yaml and compose.linux.yaml for the classroom t3.micro.
+services:
+  monitor:
+    mem_limit: 256m
+    environment:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+  prometheus:
+    mem_limit: 160m
+    environment:
+      GOMEMLIMIT: 120MiB
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=24h
+      - --storage.tsdb.retention.size=256MB
+      - --query.max-concurrency=4
+  grafana:
+    mem_limit: 192m
+  alertmanager:
+    mem_limit: 64m
+  node-exporter:
+    mem_limit: 64m

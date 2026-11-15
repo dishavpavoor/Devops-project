@@ -1,0 +1,22 @@
+name: devops-ci
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: deploy/jenkins/Dockerfile
+    image: devops-jenkins:local
+    restart: unless-stopped
+    user: root
+    mem_limit: 1536m
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      JAVA_OPTS: -Djenkins.install.runSetupWizard=false -Xmx768m
+      JENKINS_HOME: ${JENKINS_HOST_HOME:?Run scripts/setup_jenkins.py first}
+      PROJECT_EC2_HOST: ${PROJECT_EC2_HOST:?Set the existing EC2 address}
+    volumes:
+      # Matching host/container paths allow Docker-outside-Docker workspace binds.
+      - ${JENKINS_HOST_HOME}:${JENKINS_HOST_HOME}
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${JENKINS_SECRETS_DIR}:/run/project-secrets:ro
+      - ${EC2_KEY_FILE}:/run/ec2_key:ro

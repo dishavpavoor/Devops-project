@@ -25,3 +25,5 @@ source.tar.gz
 *.tfplan
 crash.log
 deploy/ansible/jenkins.ini
+.local/
+deployment.json

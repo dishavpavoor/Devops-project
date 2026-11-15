@@ -1,6 +1,6 @@
 # Connect GitHub, Jenkins, Docker and AWS
 
-The project is stored in the private repository [dishavpavoor/Devops-project](https://github.com/dishavpavoor/Devops-project). “Sentinel” is the application's internal name; it is not a separate deployment tool.
+The project is stored in the public repository [dishavpavoor/Devops-project](https://github.com/dishavpavoor/Devops-project). “Sentinel” is the application's internal name; it is not a separate deployment tool.
 
 Your required toolchain is **Git + Jenkins + AWS + Docker**. Terraform and Ansible are optional automation helpers included in this repository. Kubernetes is not needed.
 
@@ -12,9 +12,11 @@ Your required toolchain is **Git + Jenkins + AWS + Docker**. Terraform and Ansib
 - Jenkins: Pipeline and Ubuntu installation playbook supplied; an actual Jenkins job has not been executed yet.
 - AWS: awaiting locally configured credentials and the team's region/network/key-pair settings. No instance has been provisioned.
 
+For the existing t3.micro deployment with Jenkins running locally, see [Local Jenkins → EC2](LOCAL_JENKINS.md). The remaining sections describe alternative provisioning and Jenkins-host arrangements.
+
 ## 1. Work with Git
 
-Each teammate can clone the private repository after being granted repository access:
+Each teammate can clone the repository:
 
 ```sh
 git clone https://github.com/dishavpavoor/Devops-project.git

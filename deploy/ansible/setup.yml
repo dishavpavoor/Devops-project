@@ -25,3 +25,33 @@
         owner: '{{ ansible_user }}'
         group: '{{ ansible_user }}'
         mode: '0750'
+
+    - name: Create a small-instance swap directory
+      ansible.builtin.file:
+        path: /var/swap
+        state: directory
+        mode: '0700'
+      when: ansible_facts.memtotal_mb < 1500
+    - name: Allocate a bounded 512 MiB swap file on small instances
+      ansible.builtin.command:
+        cmd: fallocate -l 512M /var/swap/sentinel.swap
+        creates: /var/swap/sentinel.swap
+      register: sentinel_swap_created
+      when: ansible_facts.memtotal_mb < 1500
+    - name: Restrict swap file permissions
+      ansible.builtin.file:
+        path: /var/swap/sentinel.swap
+        mode: '0600'
+      when: ansible_facts.memtotal_mb < 1500
+    - name: Format the new swap file
+      ansible.builtin.command: mkswap /var/swap/sentinel.swap
+      when: ansible_facts.memtotal_mb < 1500 and sentinel_swap_created.changed
+    - name: Activate project swap when no swap is active
+      ansible.builtin.command: swapon /var/swap/sentinel.swap
+      when: ansible_facts.memtotal_mb < 1500 and ansible_facts.swaptotal_mb == 0
+    - name: Persist the project swap entry
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        line: /var/swap/sentinel.swap none swap sw 0 0
+        state: present
+      when: ansible_facts.memtotal_mb < 1500
